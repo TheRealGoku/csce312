@@ -1,0 +1,20 @@
+//Aniket Patel - 828007892
+
+/**
+ * 8-way Or: 
+ * out = (in[0] or in[1] or ... or in[7])
+ */
+
+CHIP Or8Way {
+    IN in[8];
+    OUT out;
+
+    PARTS:
+    Or(a=in[0], b=in[1], out=carry1);
+    Or(a=in[2], b=carry1, out=carry2);
+    Or(a=in[3], b=carry2, out=carry3);
+    Or(a=in[4], b=carry3, out=carry4);
+    Or(a=in[5], b=carry4, out=carry5);
+    Or(a=in[6], b=carry5, out=carry6);
+    Or(a=in[7], b=carry6, out=out);
+}

@@ -1,0 +1,17 @@
+//Aniket Patel - 828007892
+
+/**
+ * Or 4 way 
+ * out is 1 if any of the 4 bits are 1
+ * out is 0 if all bits are 0
+ */
+
+CHIP Or4Way {
+    IN a, b, c, d;
+    OUT out;
+
+    PARTS:
+    Or(a=a, b=b, out=orab);    
+    Or(a=orab, b=c, out=orabc);
+    Or(a=orabc, b=d, out=out);
+}
