@@ -1,0 +1,56 @@
+//Aniket Patel - 828007892
+
+/**
+ * Priority Encoder 
+ * out always contains the encoded id of the active input based on priority
+ * idle is 1 if all inputs are inactive, otherwise it is 0
+ * //Q0: 7'6'(5'4'(3'2'1+3)+5)+7
+ * //Q1: 7'(6'5'4'(3'2+3)+6)+7
+ * 
+ */
+
+CHIP PriorityEncoder83 {
+    IN a[8];
+    OUT out[3], idle;
+
+    PARTS:
+    Or(a=a[7], b=a[6], out=or6);
+    Or(a=or6, b=a[5], out=or5);
+    Or(a=or5, b=a[4], out=or4);
+    Or(a=or4, b=a[3], out=or3);
+    Or(a=or3, b=a[2], out=or2);
+    Or(a=or2, b=a[1], out=or1);
+    Or(a=or1, b=a[0], out=or0);
+    Not(in=or0, out=idle);
+
+    Or4Way(a=a[7], b=a[6], c=a[5], d=a[4], out=out[2]);    
+
+    Not(in=a[7], out=not7);
+    Not(in=a[6], out=not6);
+    Not(in=a[5], out=not5);
+    Not(in=a[4], out=not4);
+    Not(in=a[3], out=not3);
+    Not(in=a[2], out=not2);
+    Not(in=a[1], out=not1);
+
+    
+    And(a=not3, b=not2, out=not32);
+    And(a=not32, b=a[1], out=o1not32);
+    Or(a=o1not32, b=a[3], out=o1not32or3);
+    And(a=not5, b=not4, out=not54);
+    And(a=o1not32or3, b=not54, out=o1not32or3not54);
+    Or(a=a[5], b=o1not32or3not54, out=o1not32or3not54or5);
+    And(a=not7, b=not6, out=not76);
+    And(a=not76, b=o1not32or3not54or5, out=o1not32or3not54or5not76);
+    Or(a=o1not32or3not54or5not76, b=a[7], out=out[0]);
+    
+    
+    And(a=not3, b=a[2], out=o2not3);
+    Or(a=o2not3, b=a[3], out=o2not3or3);
+    And(a=not6, b=not5, out=not65);
+    And(a=not65, b=not4, out=not654);
+    And(a=not654, b=o2not3or3, out=o2not3or3not654);
+    Or(a=o2not3or3not654, b=a[6], out=o2not3or3not654or6);
+    And(a=not7, b=o2not3or3not654or6, out=o2not3or3not654or6not7);
+    Or(a=a[7], b=o2not3or3not654or6not7, out=out[1]);
+}

@@ -1,0 +1,17 @@
+// Aniket Patel - 828007892
+
+/**
+ * And gate: 
+ * out = 1 if (a == 1 and b == 1)
+ *       0 otherwise
+ */
+
+CHIP And {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    Nor(a=a, b=a, out=nota);
+    Nor(a=b, b=b, out=notb);
+    Nor(a=nota, b=notb, out=out);
+}
